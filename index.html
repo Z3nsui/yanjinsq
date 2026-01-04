@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YANJINSQ</title>
+  <meta name="description" content="Portfolio and commission pricing for digital art by Your Name." />
+
+  <style>
+    /* =========================
+       Dark Green Professional Theme
+       ========================= */
+    :root{
+      --bg: #1e5a39;          /* deep forest */
+      --bg2:#00a74e;          /* slightly lighter */
+      --card:#1c5236;         /* card background */
+      --card2:#025a2e;        /* hover / alt */
+      --text:#e7f3ec;         /* near-white */
+      --muted:#b7d1c3;        /* muted text */
+      --border:#153b28;       /* borders */
+      --accent:#33d18f;       /* green accent */
+      --accent2:#22a06b;      /* darker accent */
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(51,209,143,.18), transparent 55%),
+        radial-gradient(900px 450px at 100% 10%, rgba(34,160,107,.14), transparent 50%),
+        linear-gradient(180deg, var(--bg), #050d08 55%, #040a06);
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    /* Layout helpers */
+    .container{ width:min(var(--max), calc(100% - 40px)); margin-inline:auto; }
+    .grid{ display:grid; gap:18px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(11,32,21,.75);
+      color:var(--muted);
+      font-size:13px;
+      backdrop-filter: blur(10px);
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 16px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(51,209,143,.20), rgba(51,209,143,.06));
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      font-weight:650;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(51,209,143,.55); }
+    .btn.secondary{
+      background:rgba(11,32,21,.75);
+      box-shadow:none;
+    }
+    .btn.secondary:hover{ border-color:rgba(51,209,143,.35); }
+
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(6,17,11,.65);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(21,59,40,.7);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 180px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(231,243,236,.9), rgba(231,243,236,0) 70%),
+        radial-gradient(18px 18px at 70% 70%, rgba(51,209,143,.9), rgba(51,209,143,0) 72%),
+        linear-gradient(135deg, rgba(51,209,143,.35), rgba(34,160,107,.08));
+      border:1px solid rgba(51,209,143,.35);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    }
+    .brand strong{ letter-spacing:.2px; }
+    .brand span{ display:block; color:var(--muted); font-size:12.5px; margin-top:1px; }
+
+    nav ul{
+      list-style:none; padding:0; margin:0;
+      display:flex; align-items:center; gap:10px;
+    }
+    nav a{
+      display:inline-flex; padding:10px 12px;
+      border-radius:12px;
+      color:var(--muted);
+      border:1px solid transparent;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    nav a:hover{
+      background: rgba(11,32,21,.75);
+      border-color: rgba(21,59,40,.9);
+      color:var(--text);
+    }
+    .nav-actions{ display:flex; gap:10px; align-items:center; }
+
+    /* Mobile nav */
+    #menuToggle{ display:none; }
+    .menu-btn{ display:none; }
+
+    /* Hero */
+    .hero{
+      padding:44px 0 26px;
+    }
+    .hero-wrap{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .hero-card{
+      border:1px solid rgba(21,59,40,.85);
+      background: linear-gradient(180deg, rgba(11,32,21,.80), rgba(7,22,14,.55));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card .inner{ padding:26px; }
+    .hero h1{
+      margin:12px 0 10px;
+      font-size: clamp(28px, 3.8vw, 44px);
+      line-height:1.12;
+      letter-spacing: -0.5px;
+    }
+    .hero p{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: 15.5px;
+      max-width: 62ch;
+    }
+    .hero .cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+
+    .stats{
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap:12px; margin-top:18px;
+    }
+    .stat{
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(21,59,40,.75);
+      background:rgba(6,17,11,.35);
+    }
+    .stat b{ font-size:18px; display:block; }
+    .stat span{ color:var(--muted); font-size:12.5px; }
+
+    /* Right hero panel */
+    .profile{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .profile .top{
+      padding:26px;
+    }
+    .avatar{
+      width:64px; height:64px; border-radius:18px;
+      background:
+        radial-gradient(28px 28px at 30% 30%, rgba(51,209,143,.85), rgba(51,209,143,0) 72%),
+        linear-gradient(135deg, rgba(231,243,236,.16), rgba(34,160,107,.10));
+      border:1px solid rgba(51,209,143,.35);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      margin-bottom:14px;
+    }
+    .profile h2{ margin:0 0 8px; font-size:18px; }
+    .profile p{ margin:0; color:var(--muted); font-size:14px; }
+    .profile .links{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;
+    }
+    .mini-link{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(21,59,40,.85);
+      background:rgba(11,32,21,.55);
+      color:var(--muted);
+      font-size:13.5px;
+      transition:.18s ease;
+    }
+    .mini-link:hover{
+      border-color:rgba(51,209,143,.45);
+      color:var(--text);
+      transform: translateY(-1px);
+    }
+    .profile .bottom{
+      padding:18px 26px 26px;
+      border-top:1px solid rgba(21,59,40,.75);
+      background: rgba(6,17,11,.25);
+    }
+    .notice{
+      display:flex; gap:12px; align-items:flex-start;
+      color:var(--muted);
+      font-size:13.5px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--accent);
+      margin-top:6px;
+      box-shadow: 0 0 0 6px rgba(51,209,143,.12);
+      flex:0 0 auto;
+    }
+
+    /* Sections */
+    section{ padding:36px 0; }
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:14px; margin-bottom:16px;
+    }
+    .section-title h3{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.2px;
+    }
+    .section-title p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      max-width: 60ch;
+    }
+
+    /* Gallery */
+    .toolbar{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .search{
+      flex:1;
+      min-width: 220px;
+      display:flex; align-items:center; gap:10px;
+      border:1px solid rgba(21,59,40,.85);
+      background: rgba(11,32,21,.55);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .search input{
+      width:100%;
+      background: transparent;
+      border:none;
+      outline:none;
+      color: var(--text);
+      font-size:14px;
+    }
+    .search input::placeholder{ color: rgba(183,209,195,.7); }
+    .filter{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .chip{
+      cursor:pointer;
+      user-select:none;
+      border:1px solid rgba(21,59,40,.85);
+      background: rgba(6,17,11,.35);
+      color: var(--muted);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13.5px;
+      transition: .18s ease;
+    }
+    .chip:hover{ border-color: rgba(51,209,143,.45); color:var(--text); }
+    .chip.active{
+      background: rgba(51,209,143,.12);
+      border-color: rgba(51,209,143,.55);
+      color: var(--text);
+    }
+
+    .gallery{
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .art{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      border:1px solid rgba(21,59,40,.85);
+      background: rgba(11,32,21,.55);
+      overflow:hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      transition: transform .18s ease, border-color .18s ease;
+      position:relative;
+    }
+    .art:hover{ transform: translateY(-2px); border-color: rgba(51,209,143,.45); }
+    .thumb{
+      aspect-ratio: 4/3;
+      background:
+        radial-gradient(240px 140px at 30% 20%, rgba(51,209,143,.14), transparent 70%),
+        linear-gradient(135deg, rgba(231,243,236,.10), rgba(34,160,107,.06));
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(231,243,236,.75);
+      font-weight:700;
+      letter-spacing:.3px;
+      padding:14px;
+      text-align:center;
+    }
+    .art .meta{ padding:14px; }
+    .art .meta h4{ margin:0 0 6px; font-size:16px; }
+    .art .meta p{ margin:0; color:var(--muted); font-size:13.5px; }
+    .tag{
+      position:absolute;
+      top:12px; left:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(21,59,40,.85);
+      background: rgba(6,17,11,.55);
+      color: rgba(231,243,236,.85);
+      font-size:12px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Pricing */
+    .pricing{
+      grid-template-columns: repeat(12, 1fr);
+      align-items:stretch;
+    }
+    .price-card{
+      grid-column: span 4;
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid rgba(21,59,40,.85);
+      background: linear-gradient(180deg, rgba(11,32,21,.78), rgba(7,22,14,.45));
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .price-card.featured{
+      border-color: rgba(51,209,143,.55);
+      box-shadow: 0 24px 55px rgba(0,0,0,.55);
+    }
+    .price-card h4{ margin:4px 0 6px; font-size:18px; }
+    .price-card .desc{ margin:0 0 14px; color:var(--muted); font-size:13.8px; }
+    .price{
+      display:flex; align-items:baseline; gap:8px;
+      margin:10px 0 12px;
+    }
+    .price b{ font-size:34px; letter-spacing:-.6px; }
+    .price span{ color:var(--muted); font-size:13px; }
+    .list{ margin:0; padding:0; list-style:none; display:grid; gap:10px; }
+    .list li{
+      display:flex; gap:10px; align-items:flex-start;
+      color: var(--muted);
+      font-size:13.5px;
+    }
+    .check{
+      width:18px; height:18px; border-radius:7px;
+      border:1px solid rgba(51,209,143,.55);
+      background: rgba(51,209,143,.12);
+      flex:0 0 auto;
+      position:relative;
+      margin-top:1px;
+    }
+    .check:after{
+      content:"";
+      position:absolute; inset:0;
+      margin:auto;
+      width:8px; height:4px;
+      border-left:2px solid rgba(231,243,236,.9);
+      border-bottom:2px solid rgba(231,243,236,.9);
+      transform: rotate(-45deg);
+      top:4px;
+      left:4px;
+    }
+    .price-card .actions{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
+
+    /* Process + FAQ + Contact */
+    .two-col{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
+    .panel{
+      border-radius: var(--radius);
+      border:1px solid rgba(21,59,40,.85);
+      background: rgba(11,32,21,.55);
+      padding:18px;
+    }
+    .steps{ display:grid; gap:12px; }
+    .step{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(21,59,40,.75);
+      background: rgba(6,17,11,.30);
+    }
+    .num{
+      width:28px; height:28px; border-radius:10px;
+      display:grid; place-items:center;
+      border:1px solid rgba(51,209,143,.55);
+      background: rgba(51,209,143,.12);
+      font-weight:800;
+      color: rgba(231,243,236,.95);
+      flex:0 0 auto;
+    }
+    details{
+      border-radius:14px;
+      border:1px solid rgba(21,59,40,.75);
+      background: rgba(6,17,11,.30);
+      padding:12px 12px;
+    }
+    details + details{ margin-top:10px; }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      color: rgba(231,243,236,.95);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    details p{ margin:10px 0 0; color:var(--muted); font-size:13.8px; }
+
+    form{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    input, textarea, select{
+      width:100%;
+      background: rgba(6,17,11,.35);
+      border:1px solid rgba(21,59,40,.85);
+      border-radius:14px;
+      padding:12px 12px;
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+    label{ font-size:13.5px; color: var(--muted); }
+
+    footer{
+      padding:24px 0 34px;
+      color: rgba(183,209,195,.9);
+      border-top:1px solid rgba(21,59,40,.75);
+      background: rgba(6,17,11,.35);
+      margin-top:24px;
+    }
+    .foot{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:space-between;
+      align-items:center;
+      font-size:13px;
+    }
+
+    /* =========================
+       Responsive Breakpoints
+       ========================= */
+    @media (max-width: 980px){
+      .hero-wrap{ grid-template-columns: 1fr; }
+      .stats{ grid-template-columns: repeat(3, 1fr); }
+      .art{ grid-column: span 6; }
+      .price-card{ grid-column: span 6; }
+      .two-col{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px){
+      nav ul{ display:none; }
+      .menu-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:42px; height:42px;
+        border-radius:12px;
+        border:1px solid rgba(21,59,40,.85);
+        background: rgba(11,32,21,.55);
+        cursor:pointer;
+      }
+      #menuToggle:checked ~ header nav ul{
+        display:flex;
+        position:absolute;
+        left:20px; right:20px;
+        top:66px;
+        flex-direction:column;
+        gap:6px;
+        padding:12px;
+        border-radius:16px;
+        border:1px solid rgba(21,59,40,.85);
+        background: rgba(6,17,11,.85);
+        backdrop-filter: blur(12px);
+      }
+      .nav{ position:relative; }
+      .stats{ grid-template-columns: 1fr; }
+      .art{ grid-column: span 12; }
+      .price-card{ grid-column: span 12; }
+      .toolbar{ gap:10px; }
+      .filter{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile menu checkbox -->
+  <input type="checkbox" id="menuToggle" />
+
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="Go to top">
+          <img class="logo" src="img/samgyrls.png" alt="Your Name logo" />
+          <div>
+            <strong>YANJINSQ</strong>
+            <span>Portfolio • Commissions • Digital Art</span>
+          </div>
+        </a>
+
+        <nav aria-label="Primary navigation">
+          <ul>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#pricing">Commission Pricing</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn secondary" href="#pricing">View Rates</a>
+          <label class="menu-btn" for="menuToggle" aria-label="Open menu">☰</label>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <div class="container hero">
+      <div class="hero-wrap">
+        <div class="hero-card">
+          <div class="inner">
+            <h1>Professional illustrations<br/>with a clean, story-first style.</h1>
+            <p>
+              Welcome to my portfolio! Here you can view my latest works, check commission pricing,
+              and send a request. I focus on polished characters, expressive poses, and strong color mood.
+            </p>
+
+            <div class="cta">
+              <a class="btn" href="#gallery">Browse Gallery</a>
+              <a class="btn secondary" href="#contact">Request a Commission</a>
+            </div>
+
+            <div class="stats" aria-label="Quick stats">
+              <div class="stat">
+                <b>14–30 days</b>
+                <span>Typical turnaround</span>
+              </div>
+              <div class="stat">
+                <b>High-res</b>
+                <span>PNG + JPG delivery</span>
+              </div>
+              <div class="stat">
+                <b>1–2 edits</b>
+                <span>Minor revisions included</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-card profile" aria-label="Artist panel">
+          <div class="top">
+            <img class="avatar" src="img/samgyrls.png" alt="Your Name logo" />
+            <h2>Hi, I’m yanjinsq</h2>
+            <p>
+              Digital artist based in the Philippines. I create portraits, character art, and themed commissions
+              for personal use, socials, and branding.
+            </p>
+
+            <div class="links">
+              <a class="mini-link" href="#" target="_blank" rel="noopener">Instagram</a>
+              <a class="mini-link" href="#" target="_blank" rel="noopener">Twitter/X</a>
+              <a class="mini-link" href="#" target="_blank" rel="noopener">Behance</a>
+              <a class="mini-link" href="#" target="_blank" rel="noopener">Email</a>
+            </div>
+          </div>
+
+          <div class="bottom">
+            <div class="notice">
+              <span class="dot" aria-hidden="true"></span>
+              <div>
+                <b style="color:var(--text)">Tip:</b>
+                Please include references + usage (personal/commercial) for faster quotes.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h3>Gallery</h3>
+          </div>
+        </div>
+
+        <div class="grid gallery" id="galleryGrid">
+          <!-- Art Card 1 -->
+          <article class="art" data-tags="portrait character">
+            <span class="tag">Portrait</span>
+            <img src="img/karina.png" alt="Artwork title">
+            <div class="meta">
+              <h4>Karina Fanart</h4>
+              <p>Head-shot portrait</p>
+            </div>
+          </article>
+
+          <!-- Art Card 2 -->
+          <article class="art" data-tags="character illustration">
+            <span class="tag">Portrait</span>
+            <img src="img/winter.png" alt="Artwork title">
+            <div class="meta">
+              <h4>Winter Fanart</h4>
+              <p>Half-body portrait with background.</p>
+            </div>
+          </article>
+
+          <!-- Art Card 3 -->
+          <article class="art" data-tags="illustration">
+            <span class="tag">Portrait</span>
+            <img src="img/haechan.png" alt="Artwork title">
+            <div class="meta">
+              <h4>Haechan Fanart</h4>
+              <p>Bust-up two-shot portrait.</p>
+            </div>
+          </article>
+
+          <!-- Art Card 4 -->
+          <article class="art" data-tags="portrait">
+            <span class="tag">Illustration</span>
+            <img src="img/bequitasz.png" alt="Artwork title">
+            <div class="meta">
+              <h4>OC x Tywin Lanister</h4>
+              <p>Full-body Illustration Remake of “Unequal Marriage” by Vasili Pukirev (Commissioned)</p>
+            </div>
+          </article>
+
+          <!-- Art Card 5 -->
+          <article class="art" data-tags="character">
+            <span class="tag">Illustration</span>
+            <img src="img/Callan _ Esmeray.png" alt="Artwork title">
+            <div class="meta">
+              <h4>Callan & Esmeray (OC)</h4>
+              <p>Half-body illustration (Commissioned)</p>
+            </div>
+          </article>
+
+          <!-- Art Card 6 -->
+          <article class="art" data-tags="illustration character">
+            <span class="tag">Illustration</span>
+            <img src="img/dreamvhagar.png" alt="Artwork title">
+            <div class="meta">
+              <h4>House of the dragon illustration</h4>
+              <p>Whole-body illustration (Commissioned)</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h3>Commission Pricing</h3>
+          </div>
+        </div>
+
+        <div class="grid pricing">
+          <div class="price-card">
+            <span class="pill">Starter</span>
+            <h4>Bust / Headshot</h4>
+            <p class="desc">Clean portrait, simple shading, subtle background.</p>
+            <div class="price">
+              <b>$25</b><span>starting</span>
+            </div>
+            <ul class="list">
+              <li><span class="check" aria-hidden="true"></span>1 character</li>
+              <li><span class="check" aria-hidden="true"></span>Simple background</li>
+              <li><span class="check" aria-hidden="true"></span>2 minor revisions</li>
+              <li><span class="check" aria-hidden="true"></span>High-res PNG/JPG</li>
+            </ul>
+            <div class="actions">
+              <a class="btn secondary" href="#contact">Request</a>
+            </div>
+          </div>
+
+          <div class="price-card featured">
+            <span class="pill">Most Popular</span>
+            <h4>Half Body</h4>
+            <p class="desc">Best for profile banners, promos, and character focus.</p>
+            <div class="price">
+              <b>$45</b><span>starting</span>
+            </div>
+            <ul class="list">
+              <li><span class="check" aria-hidden="true"></span>1 character</li>
+              <li><span class="check" aria-hidden="true"></span>Detailed outfit</li>
+              <li><span class="check" aria-hidden="true"></span>2 minor revisions</li>
+              <li><span class="check" aria-hidden="true"></span>Simple effects (glow/light)</li>
+            </ul>
+            <div class="actions">
+              <a class="btn" href="#contact">Get a Quote</a>
+              <a class="btn secondary" href="#faq">Read FAQ</a>
+            </div>
+          </div>
+
+          <div class="price-card">
+            <span class="pill">Premium</span>
+            <h4>Full Body</h4>
+            <p class="desc">Full character view, pose-focused, clean details.</p>
+            <div class="price">
+              <b>$60</b><span>starting</span>
+            </div>
+            <ul class="list">
+              <li><span class="check" aria-hidden="true"></span>1 character</li>
+              <li><span class="check" aria-hidden="true"></span>Pose</li>
+              <li><span class="check" aria-hidden="true"></span>2 minor revisions</li>
+              <li><span class="check" aria-hidden="true"></span>Optional simple background</li>
+            </ul>
+            <div class="actions">
+              <a class="btn secondary" href="#contact">Request</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+          <div class="panel">
+            <h4 style="margin:0 0 8px;">Add-ons & Notes</h4>
+            <p style="margin:0;color:var(--muted);font-size:14px;">
+              • Additional Character: +100% of base price <br>
+                • Commercial use: +50% for Non Profitable Commercial Work 
+                +100% for Profitable Commercial Work <br>
+                • Complex Background/ Outfit/ Props : Quoted depending on detail<br>
+                • Rush fee available<br>
+            </p>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+        <div class="panel">
+            <h4 style="margin:0 0 8px;">Terms of Service</h4>
+
+            <p style="margin:0;color:var(--muted);font-size:14px;">
+
+            <b>1. PAYMENT TERMS</b><br>
+            <span style="display:block; padding-left:14px;">
+                Because schedules and commission timelines vary, clients may choose one of the following:
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>A. Reserved Slots (1 month or more in advance)</b><br>
+                • A deposit is required to secure the slot<br>
+                • Deposit amount: 20–30% of the total price<br>
+                • Remaining balance is due once the commission begins
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>B. Immediate or Same-Month Commissions</b><br>
+                • Full payment is required upfront
+            </span>
+
+            <br>
+
+            <b>2. REFUND POLICY</b><br>
+            <span style="display:block; padding-left:14px;">
+                • No refunds once the sketching stage has begun<br>
+                • Chargebacks are not permitted after work has started
+            </span>
+
+            <br>
+
+            <b>3. REVISIONS</b><br>
+            <span style="display:block; padding-left:14px;">
+                <b>A. Sketch Stage</b><br>
+                • Unlimited revisions<br>
+                • Major adjustments are allowed
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>B. Base Coloring Stage</b><br>
+                • Major changes are still acceptable<br>
+                • Color palette changes, expression edits, pose fixes, and clothing adjustments are allowed
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>C. Rendering & Final Stages</b><br>
+                • Only minor edits are allowed (lighting, small details, minor corrections)<br>
+                • Major changes at this stage may require an additional fee
+            </span>
+
+            <br>
+
+            <b>4. USAGE RIGHTS & COPYRIGHT</b><br>
+            <span style="display:block; padding-left:14px;">
+                <b>A. Personal Use (Default)</b><br>
+                • Posting, sharing, and printing for personal use is allowed<br>
+                • Reselling or commercial use is not permitted without a license
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>B. Commercial Use</b><br>
+                • Book covers<br>
+                • Story illustrations<br>
+                • Merchandise<br>
+                • Marketing and promotional materials<br>
+                • Fees vary depending on usage type
+            </span>
+
+            <span style="display:block; padding-left:14px; margin-top:6px;">
+                <b>C. Copyright</b><br>
+                • The artist retains full copyright<br>
+                • Artwork may be displayed in portfolios and social media<br>
+                • Privacy requests must be made before posting
+            </span>
+
+            <br>
+
+            <b>5. TIMELINE & UPDATES</b><br>
+            <span style="display:block; padding-left:14px;">
+                • Standard turnaround: 2–4 weeks<br>
+                • Progress updates provided at sketch, base colors, rendering, and final stages<br>
+                • Delays will always be communicated
+            </span>
+
+            <br>
+
+            <b>6. RUSH REQUESTS</b><br>
+            <span style="display:block; padding-left:14px;">
+                • Rush fees may apply depending on urgency and workload
+            </span>
+
+            <br>
+
+            <b>7. PRIVACY & POSTING</b><br>
+            <span style="display:block; padding-left:14px;">
+                • Finished artwork may be posted with watermark unless requested otherwise<br>
+                • Posting for book covers may be delayed until official release
+            </span>
+
+            <br>
+
+            <b>8. PAYMENT METHOD</b><br>
+            <span style="display:block; padding-left:14px;">
+                • PayPal only<br>
+                • Goods & Services available for buyer protection<br>
+                • Friends & Family optional<br>
+                • Tips are optional and appreciated
+            </span>
+
+            <br>
+
+            <b>9. ARTIST CREDIT</b><br>
+            <span style="display:block; padding-left:14px;">
+                • Artist credit is required whenever reasonably possible<br>
+                • Credit may be a signature, caption, or credits section<br>
+                • Attribution must be clear, readable, and respectful
+            </span>
+
+            <br>
+
+            <b>10. ARTIFICIAL INTELLIGENCE RESTRICTIONS</b><br>
+            <span style="display:block; padding-left:14px;">
+                • Artwork is created without AI tools<br>
+                • The artwork may not be used for AI training, generation, or alteration<br>
+                • Uploading to AI platforms is strictly prohibited<br>
+                • Violations result in immediate termination of usage rights without refund
+            </span>
+
+            </p>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS + FAQ -->
+    <section id="process">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h3>Commission Process</h3>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="steps">
+              <div class="step"><span class="num">1</span><div><b>Send request</b><div style="color:var(--muted);font-size:13.5px;">Fill the form with references, style notes, and usage (personal/commercial).</div></div></div>
+              <div class="step"><span class="num">2</span><div><b>Quote + schedule</b><div style="color:var(--muted);font-size:13.5px;">I confirm price, timeline, and terms before starting.</div></div></div>
+              <div class="step"><span class="num">3</span><div><b>Sketch approval</b><div style="color:var(--muted);font-size:13.5px;">You review sketch; minor adjustments included.</div></div></div>
+              <div class="step"><span class="num">4</span><div><b>Final render + delivery</b><div style="color:var(--muted);font-size:13.5px;">I deliver high-res files via email/drive link.</div></div></div>
+            </div>
+          </div>
+
+          <div class="panel" id="faq">
+            <h4 style="margin:0 0 10px;">FAQ</h4>
+
+            <details open>
+              <summary>What payments do you accept?</summary>
+              <p>Replace this with your options (PayPal, GCash, bank transfer, etc.).</p>
+            </details>
+
+            <details>
+              <summary>How long is the turnaround time?</summary>
+              <p>Typical is 14–30 days depending on complexity and queue.</p>
+            </details>
+
+            <details>
+              <summary>Do you allow commercial use?</summary>
+              <p>Yes—add your terms and the commercial fee rules here.</p>
+            </details>
+
+            <details>
+              <summary>Do you do refunds?</summary>
+              <p>No.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h3>Contact</h3>
+        <p>You can reach me through my social accounts or email.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- Left: Quick info -->
+      <div class="panel">
+        <h4 style="margin:0 0 8px;">Quick Info</h4>
+        <p style="margin:0;color:var(--muted);font-size:14px;">
+          For fastest quotes, include:
+          <br/>• Character references
+          <br/>• Pose/background notes
+          <br/>• Deadline (if any)
+          <br/>• Usage (personal/commercial)
+        </p>
+      </div>
+
+      <!-- Right: Social links + Email only -->
+      <div class="panel">
+        <h4 style="margin:0 0 8px;">Message Me</h4>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+          <a class="btn secondary" href="https://www.instagram.com/yanjinsq/" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn secondary" href="https://x.com/yanjinsq?s=21" target="_blank" rel="noopener">Twitter/X</a>
+        </div>
+
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(21,59,40,.75);">
+          <p style="margin:0; color:var(--muted); font-size:13.5px;">Email</p>
+          <a href="mailto:saquilonlianjin@gmail.com" style="display:inline-block; margin-top:6px; font-weight:700;">
+            saquilonlianjin@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <footer>
+      <div class="container">
+        <div class="foot">
+          <div>© <span id="year"></span> Zensui. All rights reserved.</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="#gallery">Gallery</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Gallery filter + search (simple front-end)
+    const chips = document.querySelectorAll(".chip");
+    const arts = Array.from(document.querySelectorAll(".art"));
+    const searchInput = document.getElementById("searchInput");
+
+    let activeFilter = "all";
+
+    function applyFilters(){
+      const q = (searchInput.value || "").toLowerCase().trim();
+
+      arts.forEach(card => {
+        const tags = (card.getAttribute("data-tags") || "").toLowerCase();
+        const text = (card.innerText || "").toLowerCase();
+
+        const matchesFilter = activeFilter === "all" || tags.includes(activeFilter);
+        const matchesSearch = !q || tags.includes(q) || text.includes(q);
+
+        card.style.display = (matchesFilter && matchesSearch) ? "" : "none";
+      });
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.getAttribute("data-filter");
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+  </script>
+</body>
+</html>
